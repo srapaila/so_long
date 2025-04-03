@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:38:05 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 15:58:32 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:34:30 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void render_map(t_game *game)
     int y;
     int x;
 
-    y = 0;
-    while(y < game->map_height)
+    y = -1;
+    while(++y < game->map_height)
     {
-        x = 0;
-        while(x < game->map_width)
+        x = -1;
+        while(++x < game->map_width)
         {
             if (game->map[y][x] == '1')
                 mlx_put_image_to_window(game->mlx, game->win, game->wall.img, x * TILE_SIZE, y * TILE_SIZE);
@@ -49,9 +49,9 @@ void render_map(t_game *game)
                 mlx_put_image_to_window(game->mlx, game->win, game->collectible.img, x * TILE_SIZE, y * TILE_SIZE);
             else if (game->map[y][x] == 'E')
                 mlx_put_image_to_window(game->mlx, game->win, game->exit.img, x * TILE_SIZE, y * TILE_SIZE); 
-            x++;
+            else if (game->map[y][x] == 'F')
+                mlx_put_image_to_window(game->mlx, game->win, game->enemy.img, x * TILE_SIZE, y * TILE_SIZE); 
             }
-        y++;
     }   
     print_moves(game);
 }

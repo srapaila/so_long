@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:25:32 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 15:45:43 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:47:05 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ int validate_map_contents(t_game *game)
     y = -1;
     while(++y < game->map_height)
         count_map_elements(game, y, &player, &exit, &c);
-    // y = -1;
+    y = -1;
     // while(++y < game->map_height)
     //     count_enemy(game, y, &enemy);
     if(player != 1 || exit != 1 || c < 1)
-        return(write(2,"Error\n", 6),free_map(game), 0);
+        return(write(2,"Error\n", 6), 0);
     game->collectibles = c;
     // game->enemy_count = enemy;
     return(1);
@@ -122,15 +122,18 @@ int parse_map(t_game *game, const char *map_file)
         return(0);
     }
     close(fd);
-    fd = open(map_file, O_RDONLY);
-    if(!allocate_map(game) ||
-        !read_and_validate(game, fd) ||
-        !validate_map_contents(game)||
-        !map_is_playable(game))
-    {
-        close(fd);
+    if(!allocate_map(game))
         return(0);
+    fd = open(map_file, O_RDONLY);
+    if (!read_and_validate(game, fd)) {
+        free_map(game);
+        clean_gnl(fd);
+        close(fd);
+        return (0);
     }
     close(fd);
+    if(!validate_map_contents(game)||
+        !map_is_playable(game))
+        return(free_map(game), 0);
     return(1);
 }

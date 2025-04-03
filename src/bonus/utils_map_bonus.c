@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:03:34 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 15:55:31 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:48:32 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int validate_line(char *line , t_game *game, int y)
     {
         game->map[y][x] = line[x];
         if(!is_valid(line[x]))
-            return(write(2, "Error\n", 6), free(line), 0);
+            return(0);
         x++;
     }
     game->map[y][game->map_width] = '\0';
@@ -68,32 +68,32 @@ int check_walls(t_game *game)
     while(x < game->map_width)
     {
         if(game->map[0][x] != '1')
-            return(write(2, "Error: NoWalls\n", 15), free_map(game), 0);
+            return(write(2, "Error: NoWalls\n", 15), 0);
         if(game->map[game->map_height - 1][x] != '1')
-            return(write(2, "Error: NoWalls\n", 15), free_map(game), 0);
+            return(write(2, "Error: NoWalls\n", 15), 0);
         x++;
     }
     y = 0;
     while(y < game->map_height)
     {
         if(game->map[y][0] != '1')
-            return(write(2, "Error: NoWalls\n", 15), free_map(game), 0);
+            return(write(2, "Error: NoWalls\n", 15), 0);
         if(game->map[y][game->map_width - 1] != '1')
-            return(write(2, "Error: NoWalls\n", 15), free_map(game), 0);
+            return(write(2, "Error: NoWalls\n", 15), 0);
         y++;
     }
 
     return (1);
 }
 
-void count_enemy(t_game *game, int y, int *enemy)
-{
-    int x;
+// void count_enemy(t_game *game, int y, int *enemy)
+// {
+//     int x;
 
-    x = -1;
-    while(++x < game->map_width)
-    {
-        if(game->map[y][x] == 'A')
-            (*enemy)++;
-    }
-}
+//     x = -1;
+//     while(++x < game->map_width)
+//     {
+//         if(game->map[y][x] == 'A')
+//             (*enemy)++;
+//     }
+// }

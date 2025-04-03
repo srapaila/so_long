@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:57:51 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/01 19:26:54 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:50:20 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 int is_valid(char c)
 {
-    return(c == '0' || c == '1' || c == 'P' || c == 'E' || c == 'C');
+    if (c == '0' || c == '1' || c == 'P' || c == 'E' || c == 'C' || c == 'F')
+        return (1);
+    else
+        return (0);
 }
-
 
 int check_args(int argc, char *argv)
 {

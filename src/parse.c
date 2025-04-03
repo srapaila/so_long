@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:25:32 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/01 19:09:16 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:40:11 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int calculate_map_size(t_game *game, int fd)
         if(width == 0)
             width = ft_strlen(line);
         else if (ft_strlen(line) != width)
-            return(write(2, "Error\n", 6), free(line), 0);
+            return(write(2, "Error: wrong size\n", 6), free(line), 0);
         height++;
         free(line);
     }
@@ -71,7 +71,7 @@ int read_and_validate(t_game *game, int fd)
     {
         trim_newline(line);
         if(!validate_line(line, game, y))
-            return (free(line), write(2, "Error\n", 6), 0);
+            return (free(line), write(2, "Error: invalid line\n", 6), 0);
         free(line);  
         y++;
     }
@@ -94,11 +94,9 @@ int validate_map_contents(t_game *game)
     exit = 0;
     y = -1;
     while(++y < game->map_height)
-    {
         count_map_elements(game, y, &player, &exit, &c);
-    }
     if(player != 1 || exit != 1 || c < 1)
-        return(write(2,"Error\n", 6),free_map(game), 0);
+        return(write(2,"Error\n", 6), 0);
     game->collectibles = c;
     return(1);
 }
@@ -118,15 +116,18 @@ int parse_map(t_game *game, const char *map_file)
         return(0);
     }
     close(fd);
-    fd = open(map_file, O_RDONLY);
-    if(!allocate_map(game) ||
-        !read_and_validate(game, fd) ||
-        !validate_map_contents(game)||
-        !map_is_playable(game))
-    {
-        close(fd);
+    if(!allocate_map(game))
         return(0);
+    fd = open(map_file, O_RDONLY);
+    if (!read_and_validate(game, fd)) {
+        free_map(game);
+        clean_gnl(fd);
+        close(fd);
+        return (0);
     }
     close(fd);
+    if(!validate_map_contents(game)||
+        !map_is_playable(game))
+        return(free_map(game), 0);
     return(1);
 }

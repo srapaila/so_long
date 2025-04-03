@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:52:16 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 14:14:47 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:45:05 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int map_is_playable(t_game *game)
 {
     if(!create_map_copy(game))
-        return(write(2, "Error\n", 6), free_map(game), 0);
+        return(write(2, "Error\n", 6), 0);
     if(!check_map_is_playable(game))
-        return(write(2, "Error: Not playable\n", 20), free_map(game), 0);
+        return(write(2, "Error: Not playable\n", 20), 0);
     return(1);
 }
 
@@ -65,8 +65,8 @@ int check_from_player(t_game *game, int y, int x)
         return (0);
     if (game->map_copy[y][x] == '1' || game->map_copy[y][x] == 'V')
         return (0);
-    // if(game->map_copy[y][x] == 'A')
-    //     game->enemy_count++;
+    if(game->map_copy[y][x] == 'F')
+        return (0);
     if(game->map_copy[y][x] == 'E')
     {
         game->map_copy[y][x] = 'V';

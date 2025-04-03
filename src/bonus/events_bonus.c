@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 20:06:57 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 15:45:28 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:47:59 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void move_player(t_game *game, int dx, int dy)
     if(new_x >= 0 && new_x < game->map_width &&
         new_y >= 0 && new_y < game->map_height && 
         game->map[new_y][new_x] != '1' &&
-        game->map[new_y][new_x] != 'E')
+        game->map[new_y][new_x] != 'E' &&
+        game->map[new_y][new_x] != 'F')
     {
         handle_collect(game, new_x, new_y);
         game->map[game->player_pos.y][game->player_pos.x] = '0';
@@ -55,7 +56,17 @@ void move_player(t_game *game, int dx, int dy)
         ft_printf("Moves: %d\n", game->moves);
         render_map(game);
     }
-    else if( game->map[new_y][new_x] == 'E')
+    if( game->map[new_y][new_x] == 'F')
+        handle_enemy(game, new_x, new_y);
+    if( game->map[new_y][new_x] == 'E')
         handle_exit(game, new_x, new_y);
 }
 
+void handle_enemy(t_game *game, int new_x, int new_y)
+{
+    if(game->map[new_y][new_x] == 'F')
+    {
+        ft_printf("You lost, Total moves: %d\n", game->moves + 1);
+        close_game(game);
+    }
+}

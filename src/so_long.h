@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:33:29 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/01 18:29:11 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:22:41 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/keysym.h>
 
 #ifndef TILE_SIZE
-# define TILE_SIZE 32
+# define TILE_SIZE 64
 #endif
 
 typedef struct s_map

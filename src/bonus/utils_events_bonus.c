@@ -6,7 +6,7 @@
 /*   By: srapaila <srapaila@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:52 by srapaila          #+#    #+#             */
-/*   Updated: 2025/04/02 15:55:02 by srapaila         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:53:13 by srapaila         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void close_game(t_game *game)
             mlx_destroy_image(game->mlx, game->collectible.img);
         if(game->exit.img)
             mlx_destroy_image(game->mlx, game->exit.img);
+        if(game->enemy.img)
+            mlx_destroy_image(game->mlx, game->enemy.img);
     }
     if (game->win)
         mlx_destroy_window(game->mlx, game->win);
